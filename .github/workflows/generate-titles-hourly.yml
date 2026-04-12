@@ -1,0 +1,49 @@
+name: Generate Souzoku Titles Hourly
+
+on:
+  schedule:
+    # Runs at minute 0 of every hour
+    - cron: '0 * * * *'
+  workflow_dispatch:
+    # Allows manual trigger from GitHub UI
+
+permissions:
+  contents: write
+
+jobs:
+  generate-titles:
+    runs-on: ubuntu-latest
+    name: Generate SEO Titles & Articles
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          pip install anthropic
+      
+      - name: Run title generator
+        run: |
+          python generate_titles.py --output-format csv --output-dir output
+      
+      - name: Generate article content from titles
+        run: |
+          python generate_articles.py --limit 5
+        env:
+          CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
+      
+      - name: Configure Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+      
+      - name: Commit and push results
+        run: |
+          git add output/ articles/
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto: Generate SEO titles & articles at $(date -u +'%Y-%m-%d %H:%M:%S') UTC" && git push)
