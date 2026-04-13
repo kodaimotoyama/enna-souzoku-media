@@ -98,15 +98,31 @@ class ArticleGenerator:
 生成開始してください。
 """
         
-        message = self.client.messages.create(
-            model="claude-3-sonnet-20240229",
-            max_tokens=4096,
-            messages=[
-                {"role": "user", "content": prompt}
-            ]
-        )
+        # Try different models in case some aren't available
+        models_to_try = [
+            "claude-3-sonnet-20240229",
+            "claude-3-haiku-20240307",
+            "claude-3-opus-20240229"
+        ]
         
-        return message.content[0].text
+        last_error = None
+        for model in models_to_try:
+            try:
+                message = self.client.messages.create(
+                    model=model,
+                    max_tokens=4096,
+                    messages=[
+                        {"role": "user", "content": prompt}
+                    ]
+                )
+                return message.content[0].text
+            except Exception as e:
+                last_error = e
+                print(f"Model {model} failed: {str(e)}")
+                continue
+        
+        # If all models failed, raise the last error
+        raise last_error
     
     def wrap_html_template(self, h1_title: str, lead: str, article_content: str, filename: str, description: str) -> str:
         """Wrap article content in HTML template"""
