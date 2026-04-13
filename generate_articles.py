@@ -18,7 +18,20 @@ class ArticleGenerator:
         self.api_key = api_key or os.getenv('CLAUDE_API_KEY')
         if not self.api_key:
             raise ValueError("CLAUDE_API_KEY environment variable not set")
-        self.client = anthropic.Anthropic(api_key=self.api_key)
+        
+        try:
+            self.client = anthropic.Anthropic(api_key=self.api_key)
+            # Test the API key with a simple request
+            self.client.messages.create(
+                model="claude-3-haiku-20240307",
+                max_tokens=10,
+                messages=[{"role": "user", "content": "test"}]
+            )
+            print("✓ API key validated successfully")
+        except Exception as e:
+            print(f"❌ API key validation failed: {str(e)}")
+            raise ValueError(f"Invalid Claude API key: {str(e)}")
+        
         self.base_path = Path(__file__).parent
         self.output_dir = self.base_path / 'articles'
     
@@ -100,14 +113,19 @@ class ArticleGenerator:
         
         # Try different models in case some aren't available
         models_to_try = [
-            "claude-3-sonnet-20240229",
-            "claude-3-haiku-20240307",
-            "claude-3-opus-20240229"
+            "claude-3-5-sonnet-20241022",  # Try the latest first
+            "claude-3-5-sonnet-20240620",  # Original 3.5 Sonnet
+            "claude-3-sonnet-20240229",    # Claude 3 Sonnet
+            "claude-3-haiku-20240307",     # Claude 3 Haiku
+            "claude-3-opus-20240229",      # Claude 3 Opus
+            "claude-2.1",                  # Claude 2.1
+            "claude-2.0"                   # Claude 2.0
         ]
         
         last_error = None
         for model in models_to_try:
             try:
+                print(f"Trying model: {model}")
                 message = self.client.messages.create(
                     model=model,
                     max_tokens=4096,
@@ -115,13 +133,17 @@ class ArticleGenerator:
                         {"role": "user", "content": prompt}
                     ]
                 )
+                print(f"✓ Successfully used model: {model}")
                 return message.content[0].text
             except Exception as e:
+                error_msg = str(e)
+                print(f"✗ Model {model} failed: {error_msg}")
                 last_error = e
-                print(f"Model {model} failed: {str(e)}")
+                # Continue to next model
                 continue
         
         # If all models failed, raise the last error
+        print(f"❌ All models failed. Last error: {last_error}")
         raise last_error
     
     def wrap_html_template(self, h1_title: str, lead: str, article_content: str, filename: str, description: str) -> str:
