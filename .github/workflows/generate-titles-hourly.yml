@@ -14,6 +14,8 @@ jobs:
   generate-titles:
     runs-on: ubuntu-latest
     name: Generate SEO Titles & Articles
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     
     steps:
       - name: Checkout repository
@@ -32,6 +34,13 @@ jobs:
         run: |
           python generate_titles.py --output-format csv --output-dir output
       
+      - name: Verify Claude API key
+        run: |
+          if [ -z "${{ secrets.CLAUDE_API_KEY }}" ]; then
+            echo "ERROR: CLAUDE_API_KEY secret is not configured."
+            exit 1
+          fi
+      
       - name: Generate article content from titles
         run: |
           python generate_articles.py --limit 5
@@ -46,4 +55,9 @@ jobs:
       - name: Commit and push results
         run: |
           git add output/ articles/
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto: Generate SEO titles & articles at $(date -u +'%Y-%m-%d %H:%M:%S') UTC" && git push)
+          if ! git diff --cached --quiet; then
+            git commit -m "Auto: Generate SEO titles & articles at $(date -u +'%Y-%m-%d %H:%M:%S') UTC"
+            git push
+          else
+            echo "No generated changes to commit"
+          fi
