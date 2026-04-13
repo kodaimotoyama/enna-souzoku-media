@@ -14,15 +14,13 @@ jobs:
   generate-titles:
     runs-on: ubuntu-latest
     name: Generate SEO Titles & Articles
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
       
@@ -46,6 +44,7 @@ jobs:
           python generate_articles.py --limit 5
         env:
           CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
+          CLAUDE_MODEL: claude-sonnet-4-20250514
       
       - name: Configure Git
         run: |
