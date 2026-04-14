@@ -1,0 +1,7 @@
+interface:
+  display_name: "Article Automation"
+  short_description: "記事自動化の要件整理と実行を行う skill"
+  default_prompt: "Use $article-automation-orchestrator to gather article requirements first, then run or update the article automation workflow."
+
+policy:
+  allow_implicit_invocation: true

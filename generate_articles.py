@@ -79,6 +79,7 @@ class ArticleGenerator:
 **H2見出し**: {', '.join(h2_list)}
 
 **生成ルール**:
+0. 記事冒頭に100-180文字の結論先出しを入れる
 1. イントロダクション（150-200文字）
 2. 各H2セクション（300-500文字）
 3. よくある質問セクション（FAQ 3-5項目）
@@ -95,6 +96,11 @@ class ArticleGenerator:
 以下のHTMLマークアップで返してください（classは含めない、内容のみ）:
 
 <article>
+<div class="summary-box">
+<div class="summary-box__title">📌 この記事の結論</div>
+<p class="summary-box__text">100-180文字の結論...</p>
+</div>
+
 <p>イントロダクション...</p>
 
 <h2>H2見出し1</h2>
@@ -106,8 +112,14 @@ class ArticleGenerator:
 ...
 
 <h2>よくある質問（FAQ）</h2>
-<h3>Q1: ...</h3>
-<p>A: ...</p>
+<div class="faq-item">
+<button class="faq-question" type="button" aria-expanded="false">
+<span class="faq-q-mark">Q</span>
+<span class="faq-question__text">Q1: ...</span>
+<span class="faq-chevron">▼</span>
+</button>
+<div class="faq-answer">A: ...</div>
+</div>
 ...
 
 <h2>結論</h2>
