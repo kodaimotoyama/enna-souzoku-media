@@ -329,7 +329,8 @@ img {
 .step-card,
 .guide-card,
 .company-card,
-.article-content {
+.article-content,
+.article-body {
   background: var(--color-white);
   border: 1.5px solid var(--color-border);
   box-shadow: var(--shadow-sm);
@@ -607,6 +608,7 @@ img {
 .company-card p,
 .company-data dd,
 .article-content p,
+.article-body p,
 .toc-card p {
   color: var(--color-text-sub);
 }
@@ -859,13 +861,15 @@ img {
   border: 1.5px solid var(--color-border);
 }
 
-.article-content section + section {
+.article-content section + section,
+.article-body section + section {
   margin-top: 34px;
   padding-top: 34px;
   border-top: 1px solid var(--color-border);
 }
 
-.article-content h2 {
+.article-content h2,
+.article-body h2 {
   margin: 0 0 20px;
   padding: 16px 20px;
   font-size: 1.45rem;
@@ -875,7 +879,8 @@ img {
   line-height: 1.3;
 }
 
-.article-content h3 {
+.article-content h3,
+.article-body h3 {
   margin: 36px 0 14px;
   color: var(--color-text);
   font-size: 1.15rem;
@@ -884,7 +889,9 @@ img {
 }
 
 .article-content ul,
-.article-content ol {
+.article-content ol,
+.article-body ul,
+.article-body ol {
   margin: 0 0 20px;
   padding-left: 0;
   display: flex;
@@ -894,7 +901,9 @@ img {
 }
 
 .article-content ul li,
-.article-content ol li {
+.article-content ol li,
+.article-body ul li,
+.article-body ol li {
   position: relative;
   border-radius: var(--radius-sm);
   background: var(--color-bg-soft);
@@ -902,11 +911,13 @@ img {
   line-height: 1.7;
 }
 
-.article-content ul li {
+.article-content ul li,
+.article-body ul li {
   padding: 10px 16px 10px 44px;
 }
 
-.article-content ul li::before {
+.article-content ul li::before,
+.article-body ul li::before {
   content: "✓";
   position: absolute;
   left: 14px;
@@ -917,16 +928,19 @@ img {
   font-size: 0.85rem;
 }
 
-.article-content ol {
+.article-content ol,
+.article-body ol {
   counter-reset: article-ol;
 }
 
-.article-content ol li {
+.article-content ol li,
+.article-body ol li {
   counter-increment: article-ol;
   padding: 10px 16px 10px 52px;
 }
 
-.article-content ol li::before {
+.article-content ol li::before,
+.article-body ol li::before {
   content: counter(article-ol);
   position: absolute;
   left: 14px;
