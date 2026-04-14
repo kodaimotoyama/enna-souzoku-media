@@ -1191,10 +1191,19 @@ img {
   line-height: 1.6;
 }
 
+.sidebar-line-cta .button {
+  width: 100%;
+  justify-content: center;
+}
+
 .sidebar-links {
   display: flex;
   flex-direction: column;
   gap: 0;
+}
+
+.sidebar-widget__body:has(.sidebar-links) {
+  padding: 0;
 }
 
 .sidebar-links a {
