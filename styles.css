@@ -188,6 +188,7 @@ img {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.8fr);
   gap: 24px;
+  align-items: stretch;
 }
 
 .hero-copy h1,
@@ -457,6 +458,9 @@ img {
   font-size: 1rem;
   color: var(--color-text-sub);
   margin-bottom: 0;
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .section-heading h2 {
@@ -701,6 +705,7 @@ img {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 300px;
   gap: 24px;
+  align-items: start;
 }
 
 .article-main {
@@ -753,6 +758,7 @@ img {
   display: flex;
   align-items: center;
   gap: 20px;
+  row-gap: 10px;
   font-size: 0.82rem;
   color: var(--color-text-muted);
   flex-wrap: wrap;
@@ -762,6 +768,50 @@ img {
   display: flex;
   align-items: center;
   gap: 5px;
+}
+
+.toc {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: 28px 32px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 24px;
+  border: 1.5px solid var(--color-border);
+}
+
+.toc__title {
+  margin: 0 0 14px;
+  color: var(--color-primary);
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.toc__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.toc__list li {
+  margin: 0;
+}
+
+.toc__list a {
+  display: block;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-soft);
+  color: var(--color-text-sub);
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.toc__list a:hover {
+  background: var(--color-primary-light);
+  color: var(--color-primary-dark);
 }
 
 .faq-list {
@@ -859,6 +909,14 @@ img {
   box-shadow: var(--shadow-sm);
   margin-bottom: 24px;
   border: 1.5px solid var(--color-border);
+}
+
+.article-body > :first-child {
+  margin-top: 0;
+}
+
+.article-body > :last-child {
+  margin-bottom: 0;
 }
 
 .article-content section + section,
@@ -1207,6 +1265,10 @@ img {
     grid-column: auto;
   }
 
+  .sidebar {
+    position: static;
+  }
+
   .topbar {
     align-items: flex-start;
     border-radius: 28px;
@@ -1264,6 +1326,7 @@ img {
   .step-card,
   .guide-card,
   .article-content,
+  .toc,
   .company-card,
   .toc-card,
   .promise-card,
@@ -1278,5 +1341,18 @@ img {
 
   .footer {
     padding: 28px 22px 22px;
+  }
+
+  .faq-question {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .faq-answer {
+    padding: 14px 16px 18px 16px;
+  }
+
+  .article-header__meta {
+    gap: 8px 14px;
   }
 }
