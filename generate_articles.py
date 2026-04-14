@@ -93,25 +93,32 @@ class ArticleGenerator:
 - 相談CTAを最後に含める（「無料相談へ」への誘導）
 
 **出力形式**:
-以下のHTMLマークアップで返してください（classは含めない、内容のみ）:
+以下のHTMLマークアップで返してください。`article-body` の中に入る本文部分だけを返し、外側の `<html>` や共通ヘッダーは含めないでください。
 
-<article>
 <div class="summary-box">
 <div class="summary-box__title">📌 この記事の結論</div>
 <p class="summary-box__text">100-180文字の結論...</p>
 </div>
 
-<p>イントロダクション...</p>
-
 <h2>H2見出し1</h2>
 <p>本文...</p>
 <h3>H3サブ見出し（必要に応じて）</h3>
-<p>...")
+<p>...</p>
 
 <h2>H2見出し2</h2>
 ...
 
-<h2>よくある質問（FAQ）</h2>
+<div class="callout callout--info">
+<span class="callout__icon">💡</span>
+<div class="callout__body"><strong>ポイント：</strong>補足説明...</div>
+</div>
+
+<h2>まとめ</h2>
+<p>結論の再整理...</p>
+
+<div class="article-faq" id="faq">
+<h2 class="article-faq__title">よくある質問</h2>
+<div class="faq-list">
 <div class="faq-item">
 <button class="faq-question" type="button" aria-expanded="false">
 <span class="faq-q-mark">Q</span>
@@ -121,11 +128,8 @@ class ArticleGenerator:
 <div class="faq-answer">A: ...</div>
 </div>
 ...
-
-<h2>結論</h2>
-<p>...)
-
-</article>
+</div>
+</div>
 
 生成開始してください。
 """
@@ -204,14 +208,83 @@ class ArticleGenerator:
         </div>
       </header>
 
-      <main class="page-layout section">
-        <article class="article-content">
+      <div class="section">
+        <nav class="breadcrumb" aria-label="パンくずリスト">
+          <a href="../index.html">相続の相談室 TOP</a>
+          <span class="breadcrumb__sep">›</span>
+          <a href="./category-real-estate.html">相続不動産</a>
+          <span class="breadcrumb__sep">›</span>
+          <span>{h1_title}</span>
+        </nav>
+
+        <main class="article-layout">
+          <div class="article-main">
+            <div class="article-header">
+              <div class="article-header__cats">
+                <span class="card-tag">相続記事</span>
+              </div>
+              <h1 class="article-header__title">{h1_title}</h1>
+              <div class="article-header__meta">
+                <span>📍 広島の相続実務を前提に整理</span>
+                <span>📄 相談前の確認項目あり</span>
+                <span>✍️ 相続の相談室 by ENNA</span>
+              </div>
+            </div>
+
+            <div class="toc">
+              <div class="toc__title">📖 この記事でわかること</div>
+              <ul class="toc__list">
+                <li><a href="#summary">この記事の結論</a></li>
+                <li><a href="#faq">よくある質問</a></li>
+              </ul>
+            </div>
+
+            <div class="article-body">
 {article_content}
-          <div class="article-actions">
-            <a class="button button-primary" href="https://enna-protect.com/" target="_blank" rel="noopener noreferrer">ENNAに無料相談する</a>
+            </div>
+
+            <div class="article-cta">
+              <div class="article-cta__title">相続の整理で迷ったら、ENNAへ無料相談</div>
+              <p class="article-cta__desc">
+                不動産や保険の論点整理をしたうえで、相続後の資金設計まで含めて相談できます。<br />
+                記事で整理した内容を、そのまま相談に持ち込めます。
+              </p>
+              <div class="article-cta__actions">
+                <a class="button button-primary" href="https://enna-protect.com/" target="_blank" rel="noopener noreferrer">ENNAに無料相談する</a>
+                <a class="button button-secondary" href="./category-real-estate.html">相続不動産カテゴリを見る</a>
+              </div>
+            </div>
+
+            <div class="author-box">
+              <div class="author-box__avatar">相</div>
+              <div class="author-box__info">
+                <div class="author-box__role">監修・執筆</div>
+                <div class="author-box__name">相続の相談室 by ENNA 編集部</div>
+                <p class="author-box__desc">広島市の相続不動産・相続保険の相談導線を前提に、相談前の論点整理に役立つ記事を編集しています。売却実務だけでなく、相続後の資金整理までつながる情報設計を重視しています。</p>
+              </div>
+            </div>
           </div>
-        </article>
-      </main>
+
+          <aside class="sidebar">
+            <div class="sidebar-line-cta">
+              <div class="sidebar-line-cta__title">無料相談の前に整理したい方へ</div>
+              <p class="sidebar-line-cta__desc">相続の悩みを整理した内容を<br />そのまま相談できます。</p>
+              <a class="button button-primary" style="width:100%;justify-content:center;" href="https://enna-protect.com/" target="_blank" rel="noopener noreferrer">無料相談する</a>
+            </div>
+
+            <div class="sidebar-widget">
+              <div class="sidebar-widget__title">関連カテゴリ</div>
+              <div class="sidebar-widget__body" style="padding:0;">
+                <div class="sidebar-links">
+                  <a href="./category-real-estate.html">相続不動産</a>
+                  <a href="./category-insurance.html">相続保険</a>
+                  <a href="./category-hiroshima-local.html">広島市の町名別記事</a>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </main>
+      </div>
     </div>
   </body>
 </html>
